@@ -359,6 +359,14 @@ impl Primitive {
     pub(crate) fn deprecation_suggestion(&self) -> Option<String> {
         use Primitive::*;
         Some(match self {
+            Member => format!(
+                "use new {} instead, which has its arguments flipped",
+                MemberOf.format()
+            ),
+            IndexOf => format!(
+                "use new {} instead, which has its arguments flipped",
+                IndexIn.format()
+            ),
             Sys(SysOp::GifDecode) => format!(
                 "use {} {} instead",
                 Un.format(),
@@ -578,9 +586,11 @@ impl Primitive {
             Primitive::Deduplicate => env.monadic_mut_env(Value::deduplicate)?,
             Primitive::Unique => env.monadic_ref(Value::unique)?,
             Primitive::Member => env.dyadic_rr_env(Value::member)?,
+            Primitive::MemberOf => env.dyadic_rr_env(|a, b, env| b.member(a, env))?,
             Primitive::Find => env.dyadic_rr_env(Value::find)?,
             Primitive::Mask => env.dyadic_rr_env(Value::mask)?,
             Primitive::IndexOf => env.dyadic_rr_env(Value::index_of)?,
+            Primitive::IndexIn => env.dyadic_rr_env(|a, b, env| b.index_of(a, env))?,
             Primitive::Coordinate => env.dyadic_rr_env(Value::coordinate)?,
             // Primitive::ProgressiveIndexOf => env.dyadic_rr_env(Value::progressive_index_of)?,
             Primitive::Box => {

@@ -190,7 +190,7 @@ uiuisms!(
     /// Remove all instances of an element from a list
     "▽≠, 4 [1 4 2 0 5 4 3]",
     /// Remove first instance of an element from an array
-    "⍜↻(↘1)⊗⊙. 4 [1 4 2 0 5 4 3]",
+    "⍜↻(↘1)⨂, 4 [1 4 2 0 5 4 3]",
     /// Remove the nth element from an array
     "⍜↻(↘1) 4 [1 4 2 0 5 4 3]",
     /// Remove all instances of a row from an array
@@ -204,15 +204,15 @@ uiuisms!(
     /// Convert a string to lowercase
     r#"¯⌵ "These are Words""#,
     /// Check if a string is in a list of strings
-    r#"∊□ "uiua" {"apl" "bqn" "uiua"}"#,
+    r#"∈:□ "uiua" {"apl" "bqn" "uiua"}"#,
     /// Trim leading whitespace
     r#"▽\↥≠@ . "   ← remove these""#,
     /// Trim trailing whitespace
     r#"▽⍜⇌\↥≠@ . "remove these →   ""#,
     /// Trim prefix-matching characters from a set
-    r#"▽¬\↧∊, "abc" "ccab ← remove this""#,
+    r#"▽¬\×⊸∈ "abc" "ccab ← remove this""#,
     /// Trim suffix-matching characters from a set
-    r#"▽¬⍜⇌\↧∊, "abc" "remove this → bcaa""#,
+    r#"▽¬⍜⇌\↧⊸∈ "abc" "remove this → bcaa""#,
     /// Trim whitespace
     r#"▽×⍜⇌∩\↥.≠@ . "  abc xyz   ""#,
     /// Upscale a 2d matrix or colored image
@@ -265,8 +265,6 @@ uiuisms!(
     "⊢♭ [1_2_3_4 5_6_7_8 9_10_11_12]",
     /// Test if a positive integer is prime
     "=1⧻°/× 5",
-    /// Inverse modulo m, returns m if it does not exist
-    "⊗1◿:×⇡, 3 7",
     /// Multiplicative order modulo m
     "⊡1⊚=1◿:ⁿ⇡, 2 7",
     /// Continued fraction to decimal

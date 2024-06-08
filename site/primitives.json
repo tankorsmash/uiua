@@ -694,12 +694,20 @@
     "class": "Planet",
     "description": "Do nothing with one value"
   },
+  "indexin": {
+    "glyph": "⨂",
+    "args": 2,
+    "outputs": 1,
+    "class": "DyadicArray",
+    "description": "Find the first index of each row of one array in another"
+  },
   "indexof": {
     "glyph": "⊗",
     "args": 2,
     "outputs": 1,
     "class": "DyadicArray",
-    "description": "Find the first index of each row of one array in another"
+    "description": "Find the first index of each row of one array in another",
+    "deprecated": true
   },
   "infinity": {
     "glyph": "∞",
@@ -799,6 +807,14 @@
   },
   "member": {
     "glyph": "∊",
+    "args": 2,
+    "outputs": 1,
+    "class": "DyadicArray",
+    "description": "Check if each row of one array exists in another",
+    "deprecated": true
+  },
+  "memberof": {
+    "glyph": "∈",
     "args": 2,
     "outputs": 1,
     "class": "DyadicArray",

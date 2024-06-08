@@ -1239,6 +1239,21 @@ primitive!(
     (2, Mask, DyadicArray, ("mask", '⦷')),
     /// Check if each row of one array exists in another
     ///
+    /// The second argument is checked for membership in the first argument.
+    /// ex: ∈ [1 2 3] 2
+    /// ex: ∈ [1 2 3] 5
+    /// ex: ∈ [0 3 4 5 1] [1 2 3]
+    /// ex: ∈ [1_2_3 4_5_6] [4 5 6]
+    /// ex: ∈ [3 4 5] [1_2_3 4_5_6]
+    /// ex: ∈ [1_2_3 4_5_6] 2
+    ///
+    /// With the help of [keep], you can use [memberof] to get a set intersection.
+    /// ex: ▽⊸∈ "abracadabra" "that's really cool"
+    ///
+    /// [memberof] is closely related to [indexin].
+    (2, MemberOf, DyadicArray, ("memberof", '∈')),
+    /// Check if each row of one array exists in another
+    ///
     /// ex: ∊ 2 [1 2 3]
     /// ex: ∊ 5 [1 2 3]
     /// ex: ∊ [1 2 3] [0 3 4 5 1]
@@ -1251,6 +1266,25 @@ primitive!(
     ///
     /// [member] is closely related to [indexof].
     (2, Member, DyadicArray, ("member", '∊')),
+    /// Find the first index of each row of one array in another
+    ///
+    /// The second argument is looked for in the first argument.
+    /// ex: ⨂ [1 2 3] 2
+    /// ex: ⨂ [1_2_3 4_5_6] [4 5 6]
+    /// ex: ⨂ [1_2_3 4_5_6] 2
+    /// If the index cannot be found, the [length] of the searched-in array is returned.
+    /// ex: ⨂ [0 3 4 5 1] [1 2 3]
+    /// ex: ⨂ [3 4 5] [1_2_3 4_5_6]
+    /// ex: ⨂ [1 2 3] 5
+    ///
+    /// You can use the returned indices with [select] to get the rows that were found.
+    /// If you expect one of the searched-for rows to be missing, you can use [fill] to set a default value.
+    /// ex: A ← [2 3 5 7 11 13]
+    ///   : .⨂A. [1 2 3 4 5]
+    ///   : ⬚∞⊏:A
+    ///
+    /// [indexin] is closely related to [memberof].
+    (2, IndexIn, DyadicArray, ("indexin", '⨂')),
     /// Find the first index of each row of one array in another
     ///
     /// ex: ⊗ 2 [1 2 3]
@@ -1827,21 +1861,21 @@ primitive!(
     ///
     /// The first function is the loop function, and it is run as long as the condition is true.
     /// The second function is the condition. It's top return value must be a boolean.
-    /// ex: ⍢(×2)(<1000) 1
+    /// ex: ⍢(×2|<1000) 1
     /// Return values from the condition function that are under the condition itself will be passed to the loop function.
     /// Here is an example that evaluates a [Collatz sequence](https://en.wikipedia.org/wiki/Collatz_conjecture).
     /// The next number in the sequence is calculated in the condition function but [join]ed to the sequence in the loop function.
     /// ex: C ← (+1×3|÷2)=0◿2.
-    ///   : ◌⍢⊂(¬∊,,C⊢.) [7]
+    ///   : ◌⍢⊂(¬∈:,,C⊢.) [7]
     /// If the condition function consumes its only arguments to evaluate the condition, then those arguments will be implicitly copied.
     /// Consider this equivalence:
-    /// ex: ⍢(×3)(<100)  1
-    ///   : ⍢(×3)(<100.) 1
+    /// ex: ⍢(×3|<100)  1
+    ///   : ⍢(×3|<100.) 1
     /// The net stack change of the two functions, minus the condition, must be 0.
-    /// ex! ⍢(×2.)(<1000) 1
+    /// ex! ⍢(×2.|<1000) 1
     /// This means that unlike [repeat], [do] cannot be wrapped in `[]`s to collect items into an array.
     /// Instead, [join] the items to an initial list.
-    /// ex: ◌⍢(⊃(×2)⊂)(<100) 1 []
+    /// ex: ◌⍢(⊃(×2)⊂|<100) 1 []
     ([2], Do, IteratingModifier, ("do", '⍢')),
     /// Set the fill value for a function
     ///
@@ -2546,7 +2580,7 @@ primitive!(
     ///
     /// Append commas to whitespace for a more traditional notation:
     /// ex: -5↯2_2_3⇡12
-    ///   : ⍜⊜□⍚(⊂@,)∊," \n" repr # add commas
+    ///   : ⍜⊜□⍚(⊂@,)∈" \n". repr # add commas
     ///   : &p ⍜▽∵⋅@-=@¯.         # replace negate glyphs with minus signs
     (1, Repr, Misc, "repr"),
 );
